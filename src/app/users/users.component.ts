@@ -10,6 +10,7 @@ import * as Query from '../graphql.query';
 export class UsersComponent implements OnInit {
 
   users: any;
+  type: string;
 
   constructor(private apollo: Apollo) {
   }
@@ -19,8 +20,13 @@ export class UsersComponent implements OnInit {
   }
 
   getUsers() {
-    this.apollo.watchQuery({
-      query: Query.getUser
+    this.apollo.watchQuery<any>({
+      query: Query.getUser,
+      variables: {
+        type: this.type,
+        offset: 0,
+        limit: 3
+      }
     })
     .valueChanges
     .subscribe((data: any) => {
